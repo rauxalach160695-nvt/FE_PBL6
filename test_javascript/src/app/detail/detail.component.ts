@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {MatTabsModule} from '@angular/material/tabs';
+import { ProductService } from 'src/app/service/product.service';
+
 
 @Component({
   selector: 'app-detail',
@@ -8,11 +10,17 @@ import {MatTabsModule} from '@angular/material/tabs';
 })
 export class DetailComponent implements OnInit {
 
-  constructor() { }
+  constructor(private  productService : ProductService) { }
 
-  ngOnInit(): void {
+  ngOnInit(): void {this.productData =this.productService.ProductDetails;
   }
+  productData:any;
   price =399000;
+  overview= 'Sơ mi là một trong những loại phục trang có tính ứng dụng cao, bạn có thể sử dụng trong những bữa tiệc yêu cầu sự lịch lãm, hoặc những chuyến dạo chơi thoải mái bên bạn bè, hoặc ngay cả dịp hẹn hò cùng người yêu. Cùng Gavin tìm hiểu những tiêu chí khi chọn mua áo sơ mi sau đây.';
+  qty=1;
+  sum_price =this.price * this.qty;
+  currentDate = new Date();
+
   src = [
     {img_id: 1,url:"https://cf.shopee.vn/file/d4fbe0e60caeb997e1bd24126ccec5cf"},
     {img_id: 2,url:"https://dony.vn/wp-content/uploads/2021/07/ao-so-mi-nu-ban-nhieu-trn-tang-tmdt-viet-1.jpg"},
@@ -25,5 +33,25 @@ export class DetailComponent implements OnInit {
     var filter_array = this.src.filter(x => x.img_id == n);
     filter_array.forEach(element => {this.ImagePath = element.url
     });
+  }
+
+  QtyDecrease(n:any){
+    if( n > 0 && n!=1){
+      this.qty = n-1;
+      this.sum_price -= this.price;
+    }
+    else{
+      this.qty = 1;
+    }
+  }
+
+  QtyIncrease(n:any){
+    if(n > 0){
+      this.qty = n+1;
+      this.sum_price += this.price;
+    }
+    else{
+      this.qty = 1;
+    }
   }
 }
